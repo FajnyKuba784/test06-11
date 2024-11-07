@@ -20,6 +20,22 @@ export default function Page(){
     const [samochody, setSamochody] = useState(null)
     const [dane, setDane] = useState({marka: null, model: null, czas_parkowania: null})
     const [zdjecie,setZdjecie] = useState(null)
+    const [user,setUser] = useState(null)
+
+    useEffect(()=>{
+
+        setUser(pb.authStore.model)
+
+
+    },[])
+
+    const login = async ()=>{
+        
+       
+        setUser(pb.authStore.model)
+
+
+    }
 
 useEffect(()=>{
 
@@ -111,8 +127,10 @@ useEffect(()=>{
 
         <h1>Pocketbase</h1> 
 
-        <Awatar/>
+        <Awatar onLogin={login} user={user} setUser={setUser}/>
 
+            {user && 
+            
 
         <div className='flex w-full justify-center flex-wrap gap-5'> 
         {
@@ -152,7 +170,7 @@ useEffect(()=>{
          ))   
             
         }
-        </div>
+        </div>}
             <div className='flex w-full flex-col items-center flex-wrap gap-5 mt-5'>
 
             <div className="grid w-full max-w-sm items-center gap-1.5">

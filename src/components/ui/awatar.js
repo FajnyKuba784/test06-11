@@ -14,9 +14,9 @@ import Login_dialog from '@/components/ui/dialog_login';
 
   const pb = new PocketBase('http://172.16.15.136:8080');
 
-export default function Awatar(){
+export default function Awatar({onLogin , user,setUser}){
 
-    const [user,setUser] = useState(null)
+//    const [user,setUser] = useState(null)
 
 
     useEffect(()=>{
@@ -26,18 +26,13 @@ export default function Awatar(){
 
     },[])
 
-    const login = async ()=>{
+ //   const login = async ()=>{
         
-        const authData = await pb.collection('users').authWithPassword(
-            'sigma',
-            'chillguy',
-        );
-        console.log(pb.authStore)
-
-        setUser(pb.authStore.model)
+       
+  //      setUser(pb.authStore.model)
 
 
-    }
+  //  }
     const logout = ()=>{
         pb.authStore.clear();   
         console.log(pb.authStore)
@@ -60,7 +55,7 @@ export default function Awatar(){
   <DropdownMenuContent>
     <DropdownMenuLabel>{user ? user.username : "Niezalogowany"}</DropdownMenuLabel>
     <DropdownMenuSeparator />
-    {user ? <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem> :<DropdownMenuItem asChild><Login_dialog/></DropdownMenuItem>}
+    {user ? <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem> :<DropdownMenuItem asChild ><Login_dialog onLogin={onLogin}/></DropdownMenuItem>}
     
     
   </DropdownMenuContent>

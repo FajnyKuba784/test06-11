@@ -10,10 +10,59 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useEffect, useState } from "react"
+import PocketBase from 'pocketbase';
 
-export default function Login_dialog() {
+
+  const pb = new PocketBase('http://172.16.15.136:8080');
+
+export default function Login_dialog({onLogin}) {
+
+    const [user,setUser] = useState(null)
+    const [password, setPassword] = useState(null)
+    const [error,setError] = useState(false)
+    const [open,setOpen] = useState(false)
+    
+    useEffect(()=>{
+        setError(false)
+    },[open])
+
+    const handleUser = (e)=>{
+
+        setUser(e.target.value)
+
+    }
+    const handlePassword = (e)=>{
+
+        setPassword(e.target.value)
+
+    }
+    const handleLogowanie = async ()=>{
+
+        try{
+
+            const authData = await pb.collection('users').authWithPassword(
+                user,
+                password,
+            );
+            onLogin()
+        
+
+
+        }catch(err){
+            setError(true)
+        }
+
+
+        console.log(user,password)
+        
+        
+
+    }
+
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Login</Button>
       </DialogTrigger>
@@ -30,8 +79,8 @@ export default function Login_dialog() {
               Name
             </Label>
             <Input
+              onChange={(e)=>{handleUser(e)}}
               id="name"
-              defaultValue="Pedro Duarte"
               className="col-span-3"
             />
           </div>
@@ -40,14 +89,18 @@ export default function Login_dialog() {
               Username
             </Label>
             <Input
+              onChange={(e)=>{handlePassword(e)}}
               id="username"
-              defaultValue="@peduarte"
               className="col-span-3"
             />
           </div>
         </div>
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
+        <DialogFooter className="flex flex-col ">
+            <div>
+          {error && <p>Zle dane logowania</p>}
+
+          <Button onClick={handleLogowanie}>Save changes</Button>
+            </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
