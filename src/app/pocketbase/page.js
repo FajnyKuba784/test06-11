@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import  DeleteOne  from '@/components/ui/deleteOne';
 import EditOne from '@/components/ui/editOne';
+import Awatar from '@/components/ui/awatar';
 
 const pb = new PocketBase('http://172.16.15.136:8080');
 
@@ -108,7 +109,10 @@ useEffect(()=>{
     return(
         <div>
 
-        <h1>Pocketbase</h1>
+        <h1>Pocketbase</h1> 
+
+        <Awatar/>
+
 
         <div className='flex w-full justify-center flex-wrap gap-5'> 
         {
