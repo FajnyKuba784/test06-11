@@ -12,6 +12,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
 import PocketBase from 'pocketbase';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import New_user from "./new_user"
+
 
 
   const pb = new PocketBase('http://172.16.15.136:8080');
@@ -73,7 +76,14 @@ export default function Login_dialog({onLogin}) {
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+       
+        <Tabs defaultValue="account" >
+  <TabsList>
+    <TabsTrigger value="logowanie">Logowanie</TabsTrigger>
+    <TabsTrigger value="rejestracja">Rejestracja</TabsTrigger>
+  </TabsList>
+  <TabsContent value="logowanie">
+  <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
               Name
@@ -94,13 +104,21 @@ export default function Login_dialog({onLogin}) {
               className="col-span-3"
             />
           </div>
-        </div>
-        <DialogFooter className="flex flex-col ">
-            <div>
+          <div className="w-full flex flex-col">
           {error && <p>Zle dane logowania</p>}
 
-          <Button onClick={handleLogowanie}>Save changes</Button>
+          <Button onClick={handleLogowanie}>Zaloguj</Button>
             </div>
+        </div>
+  </TabsContent>
+  <TabsContent value="rejestracja">
+      <New_user setOpen={setOpen} />
+  </TabsContent>
+</Tabs>
+
+
+        <DialogFooter className="flex flex-col ">
+           
         </DialogFooter>
       </DialogContent>
     </Dialog>
